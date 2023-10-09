@@ -22,11 +22,11 @@ class _GamePanelState extends State<GamePanel> {
   }
 
   void createPanelGameObjects() {
-    for (int i = 0; i < 5; i++) {
-      panelGameObjects .add(GameItem(type: ObjectType.Rock, x: 50, y: 50));
+
+      panelGameObjects.add(GameItem(type: ObjectType.Rock, x: 50, y: 50));
       panelGameObjects.add(GameItem(type: ObjectType.Paper, x: 150, y: 50));
       panelGameObjects.add(GameItem(type: ObjectType.Scissors, x: 250, y: 50));
-    }
+
   }
 
   void startGameLoop() {
@@ -42,13 +42,23 @@ class _GamePanelState extends State<GamePanel> {
       obj.x += obj.dx;
       obj.y += obj.dy;
 
-      if (obj.x < 0 || obj.x > 350) {
-        obj.dx *= -1;
-        obj.x = obj.x.clamp(0, 350); // Keep object within the screen boundaries
+      // Check and handle collisions with left and right borders
+      if (obj.x < 0) {
+        obj.dx *= -1; // Reverse horizontal direction
+        obj.x = 0;     // Set the object's x-coordinate to 0
+      } else if (obj.x + 50 > 350) {
+        obj.dx *= -1; // Reverse horizontal direction
+        obj.x = 350 - 50; // Set the object's x-coordinate to the right edge
       }
-      if (obj.y < 0 || obj.y > 600) {
-        obj.dy *= -1;
-        obj.y = obj.y.clamp(0, 600); // Keep object within the screen boundaries
+
+      // Check and handle collisions with top and bottom borders
+      if (obj.y < 0) {
+        obj.dy *= -1; // Reverse vertical direction
+        obj.y = 0;     // Set the object's y-coordinate to 0
+      }
+      else if (obj.y + 50 > 350) {
+        obj.dy *= -1; // Reverse vertical direction
+        obj.y = 350 - 50; // Set the object's y-coordinate to the bottom edge
       }
 
       for (var otherObj in panelGameObjects) {
@@ -67,6 +77,9 @@ class _GamePanelState extends State<GamePanel> {
     }
     objectsToRemove.clear();
   }
+
+
+
 
   void handleCollision(GameItem obj1, GameItem obj2) {
     if (obj1.type == obj2.type) {
@@ -88,18 +101,14 @@ class _GamePanelState extends State<GamePanel> {
     return  Center(
         child: Stack(
           children: [
-            Container(
-              width: 350,
-              height: 600,
-              color: Colors.white,
-            ),
+
             for (var obj in panelGameObjects)
               Positioned(
                 left: obj.x,
                 top: obj.y,
                 child: Container(
-                  width: 50,
-                  height: 50,
+                  width: 35,
+                  height: 35,
                   color: obj.type == ObjectType.Rock
                       ? Colors.red
                       : obj.type == ObjectType.Paper
@@ -107,7 +116,7 @@ class _GamePanelState extends State<GamePanel> {
                       : Colors.green,
                   child: Center(
                     child: Text(
-                      obj.type.toString().split('.').last,
+                      obj.type.toString().split('.').last.characters.first,
                       style: const TextStyle(color: Colors.white),
                     ),
                   ),

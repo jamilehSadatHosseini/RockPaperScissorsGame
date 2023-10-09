@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:rock_paper_scissors_game/GameObject.dart';
 
 class GameItem {
+
   final ObjectType type;
   double x;
   double y;

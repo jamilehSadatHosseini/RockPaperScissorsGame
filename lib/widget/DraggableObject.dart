@@ -17,14 +17,14 @@ class _DraggableObjectState extends State<DraggableObject> {
     return Draggable(
       data: widget.object,
       feedback: Container( // Wrap with a Container
-        width: 45,
-        height: 45,
+        width: 35,
+        height: 35,
         child: GameObjectWidget(widget.object),
       ),
       childWhenDragging: Container(),
       child: SizedBox( // Wrap with a Container
-        width: 45,
-        height: 45,
+        width: 35,
+        height: 35,
         child: GameObjectWidget(widget.object),
       ),
     )

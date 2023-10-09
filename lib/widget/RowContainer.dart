@@ -25,7 +25,7 @@ class _RowContainerState extends State<RowContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
+      height: 40,
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.black,
@@ -37,9 +37,15 @@ class _RowContainerState extends State<RowContainer> {
           scrollDirection: Axis.horizontal,
           itemCount: objects.length,
           itemBuilder: (context, index) {
-            return DraggableObject(objects[index]);
+            return Row(
+              children: [
+                DraggableObject(objects[index]),
+                if (index < objects.length - 1)
+                  const SizedBox(width: 10), // Adjust the width as needed.
+              ],
+            );
           },
         ),
-      );
+    );
   }
 }

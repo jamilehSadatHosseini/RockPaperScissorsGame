@@ -14,11 +14,11 @@ class MainScreen extends StatelessWidget {
       body: Column(
         children: [
           RowContainer(objectType: ObjectType.Rock, itemCount: 5),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
           RowContainer(objectType: ObjectType.Paper, itemCount: 5),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
           RowContainer(objectType: ObjectType.Scissors, itemCount: 5),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
           Expanded(
             child: Container(
               decoration: BoxDecoration(
@@ -28,7 +28,7 @@ class MainScreen extends StatelessWidget {
                 ),
               ),
               margin: const EdgeInsets.all(10),
-              child: GamePanel(
+              child: const GamePanel(
 
               ),
             ),
