@@ -32,7 +32,7 @@ class _GamePanelState extends State<GamePanel> {
     double panelHeight = MediaQuery
         .of(context)
         .size
-        .height - AppBar().preferredSize.height - 200;
+        .height - AppBar().preferredSize.height - 220;
     for (var obj in widget.droppedObjects) {
       obj.x += obj.dx;
       obj.y += obj.dy;
@@ -76,12 +76,14 @@ class _GamePanelState extends State<GamePanel> {
   void handleCollision(GameObject obj1, GameObject obj2) {
     if (obj1.type == obj2.type) {
       // If they're of the same type, they should just bounce off each other
-      double tempDx =1.25* obj1.dx;
-      double tempDy = 1.25*obj1.dy;
+      double tempDx = obj1.dx;
+      double tempDy = obj1.dy;
       obj1.dx = obj2.dx;
       obj1.dy = obj2.dy;
       obj2.dx = tempDx;
       obj2.dy = tempDy;
+
+
     } else {
       // Handle the game's logic for different types
       if (obj1.type == ObjectType.Rock && obj2.type == ObjectType.Scissors) {
@@ -120,6 +122,17 @@ class _GamePanelState extends State<GamePanel> {
     return Center(
       child: Stack(
         children: [
+          const Positioned.fill(
+            child: Center(
+              child: Text(
+                "Randomly drag the following items in this erea:)",
+                style: TextStyle(
+                  fontSize: 18.0, // Choose a suitable font size
+                  color: Colors.black, // Choose a suitable color
+                ),
+              ),
+            ),
+          ),
           for (var obj in widget.droppedObjects)
             Positioned(
               left: obj.x,
