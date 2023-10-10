@@ -1,5 +1,4 @@
 import 'dart:math';
-
 enum ObjectType { Rock, Paper, Scissors }
 
 class GameObject {
@@ -13,7 +12,8 @@ class GameObject {
     required this.type,
     required this.x,
     required this.y,
-  }) : dx = Random().nextDouble() * 2 - 1,
+  })
+      : dx = Random().nextDouble() * 2 - 1,
         dy = Random().nextDouble() * 2 - 1;
 
   String getDisplayName() {

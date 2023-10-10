@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import '../GameObject.dart';
-import '../screen/GamePanel.dart';
-import 'DraggableObject.dart';
+import '../utils/game_object.dart';
+import 'draggable_object.dart';
 
 class RowContainer extends StatefulWidget {
   final ObjectType objectType;
   final int itemCount;
   final Function(GameObject) onDrop;
-  final Function() getGamePanelRenderBox;
+  final GlobalKey expandedContainerKey;
 
   RowContainer({
     required this.objectType,
     required this.itemCount ,
     required this.onDrop,
-    required this.getGamePanelRenderBox,  });
+    required this.expandedContainerKey,  });
 
   @override
   _RowContainerState createState() => _RowContainerState();
@@ -61,7 +60,7 @@ class _RowContainerState extends State<RowContainer> {
                   });
                   widget.onDrop(draggedObject);
                 },
-                getGamePanelRenderBox: widget.getGamePanelRenderBox,
+                expandedContainerKey: widget.expandedContainerKey,
               ),
               if (index < objects.length - 1)
                 const SizedBox(width: 10), // Adjust the width as needed.
