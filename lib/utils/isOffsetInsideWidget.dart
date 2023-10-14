@@ -6,6 +6,7 @@ bool isOffsetInsideWidget(GlobalKey key, Offset offset) {
     final Size size = renderBox.size;
     final Offset position = renderBox.localToGlobal(Offset.zero);
     final Rect rect = Rect.fromLTWH(position.dx, position.dy, size.width, size.height);
+    print('Widget Rect: $rect'); // Debugging print
     return rect.contains(offset);
   }
   return false;

@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 import '../utils/game_object.dart';
 import '../widget/row_container.dart';
 import 'game_panel.dart';
+class GameHandler {
+  List<GameObject> droppedObjects = [];
 
+  void handleDrop(GameObject droppedObject) {
+    droppedObjects.add(droppedObject);
+  }
+}
 class MainScreen extends StatefulWidget {
   @override
   _MainScreenState createState() => _MainScreenState();

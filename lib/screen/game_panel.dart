@@ -10,10 +10,9 @@ class GamePanel extends StatefulWidget {
   GamePanel({required this.droppedObjects});
 
   @override
-  _GamePanelState createState() => _GamePanelState();
+  GamePanelState createState() => GamePanelState();
 }
-
-class _GamePanelState extends State<GamePanel> {
+class GamePanelState extends State<GamePanel> {
   List<GameObject> objectsToRemove = [];
 
   void startGameLoop() {
@@ -25,14 +24,10 @@ class _GamePanelState extends State<GamePanel> {
   }
 
   void updatePanelGameObjects() {
-    double panelWidth = MediaQuery
-        .of(context)
-        .size
-        .width - 20;
-    double panelHeight = MediaQuery
-        .of(context)
-        .size
-        .height - AppBar().preferredSize.height - 220;
+    double panelWidth = MediaQuery.of(context).size.width - 20;
+    double panelHeight = MediaQuery.of(context).size.height -
+        AppBar().preferredSize.height -
+        220;
     for (var obj in widget.droppedObjects) {
       obj.x += obj.dx;
       obj.y += obj.dy;
@@ -62,6 +57,8 @@ class _GamePanelState extends State<GamePanel> {
             obj.y < otherObj.y + 35 &&
             obj.y + 35 > otherObj.y) {
           handleCollision(obj, otherObj);
+          var objectsToRemoveLocal = handleCollision(obj, otherObj);
+          objectsToRemove.addAll(objectsToRemoveLocal);
         }
       }
     }
@@ -72,8 +69,8 @@ class _GamePanelState extends State<GamePanel> {
     objectsToRemove.clear();
   }
 
-
-  void handleCollision(GameObject obj1, GameObject obj2) {
+  List<GameObject> handleCollision(GameObject obj1, GameObject obj2) {
+    List<GameObject> objectsToRemove = [];
     if (obj1.type == obj2.type) {
       // If they're of the same type, they should just bounce off each other
       double tempDx = obj1.dx;
@@ -82,29 +79,28 @@ class _GamePanelState extends State<GamePanel> {
       obj1.dy = obj2.dy;
       obj2.dx = tempDx;
       obj2.dy = tempDy;
-
-
     } else {
       // Handle the game's logic for different types
       if (obj1.type == ObjectType.Rock && obj2.type == ObjectType.Scissors) {
         objectsToRemove.add(obj2);
-      } else
-      if (obj1.type == ObjectType.Scissors && obj2.type == ObjectType.Rock) {
+      } else if (obj1.type == ObjectType.Scissors &&
+          obj2.type == ObjectType.Rock) {
         objectsToRemove.add(obj1);
-      } else
-      if (obj1.type == ObjectType.Scissors && obj2.type == ObjectType.Paper) {
+      } else if (obj1.type == ObjectType.Scissors &&
+          obj2.type == ObjectType.Paper) {
         objectsToRemove.add(obj2);
-      } else
-      if (obj1.type == ObjectType.Paper && obj2.type == ObjectType.Scissors) {
+      } else if (obj1.type == ObjectType.Paper &&
+          obj2.type == ObjectType.Scissors) {
         objectsToRemove.add(obj1);
-      } else
-      if (obj1.type == ObjectType.Paper && obj2.type == ObjectType.Rock) {
+      } else if (obj1.type == ObjectType.Paper &&
+          obj2.type == ObjectType.Rock) {
         objectsToRemove.add(obj2);
-      } else
-      if (obj1.type == ObjectType.Rock && obj2.type == ObjectType.Paper) {
+      } else if (obj1.type == ObjectType.Rock &&
+          obj2.type == ObjectType.Paper) {
         objectsToRemove.add(obj1);
       }
     }
+    return objectsToRemove;
   }
 
   @override
@@ -134,11 +130,7 @@ class _GamePanelState extends State<GamePanel> {
             ),
           ),
           for (var obj in widget.droppedObjects)
-            Positioned(
-              left: obj.x,
-              top: obj.y,
-                  child: GameObjectWidget(obj)
-                  ),
+            Positioned(left: obj.x, top: obj.y, child: GameObjectWidget(obj)),
         ],
       ),
     );
